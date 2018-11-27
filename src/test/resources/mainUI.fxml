@@ -49,7 +49,7 @@
         </Menu>
       </menus>
     </MenuBar>
-      <TableView fx:id="dataTable" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="dataTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="deviceIdCol" editable="false" prefWidth="75.0" text="deviceId" />
           <TableColumn fx:id="nodeIdCol" editable="false" prefWidth="75.0" text="nodeId" />

@@ -11,7 +11,9 @@ public class TestCenter {
     @Test
     public void test() throws IOException {
         Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(new MqttClientVerticle());
+        for (int i = 0; i < 10000; i++) {
+            vertx.deployVerticle(new MqttClientVerticle(i));
+        }
         System.in.read();
     }
 

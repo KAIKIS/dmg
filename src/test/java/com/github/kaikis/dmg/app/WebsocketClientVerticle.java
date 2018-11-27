@@ -25,10 +25,7 @@ public class WebsocketClientVerticle extends AbstractVerticle {
                 String s = data.toString(CharsetUtil.UTF_8);
                 Data d = new JsonObject(s).mapTo(Data.class);
                 datas.add(new DataProperty(d));
-//                System.out.println("Received data " + data.toString("ISO-8859-1"));
-//                    client.close();
             });
-//            websocket.writeTextMessage("Hello world");
         });
         startFuture.complete();
     }

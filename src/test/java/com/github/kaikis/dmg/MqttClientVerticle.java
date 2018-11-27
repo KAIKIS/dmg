@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.Charset;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author Kai
@@ -27,13 +28,18 @@ public class MqttClientVerticle extends AbstractVerticle {
     private static final String BROKER_HOST = "localhost";
     private static final int BROKER_PORT = 1883;
 
+    private int count = 1;
+    private int clientId;
+    Random random = new Random();
+
+    public MqttClientVerticle(int clientId) {
+        this.clientId = clientId;
+    }
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
         MqttClientOptions options = new MqttClientOptions().setKeepAliveTimeSeconds(10);
-
         client = MqttClient.create(vertx, options);
-
 
         // handler will be called when we have a message in topic we subscribing for
         client.publishHandler(publish -> {
@@ -46,9 +52,8 @@ public class MqttClientVerticle extends AbstractVerticle {
 
             // let's publish a message to the subscribed topic
 
-
             // unsubscribe from receiving messages for earlier subscribed topic
-//            vertx.setTimer(5000, l -> client.unsubscribe(MQTT_TOPIC));
+            vertx.setTimer(10000, l -> client.unsubscribe(MQTT_TOPIC));
             vertx.setPeriodic(1000, l -> {
                 client.publish(
                         MQTT_TOPIC,
@@ -82,12 +87,12 @@ public class MqttClientVerticle extends AbstractVerticle {
         startFuture.complete();
     }
 
-    private Data makeData(){
+    private Data makeData() {
         Data data = new Data();
-        data.setDeviceId(1);
-        data.setDataId(1);
+        data.setDeviceId(clientId);
+        data.setDataId(count++);
         data.setNodeId(1);
-        data.setData("123");
+        data.setData(random.nextInt(100) + "");
         data.setCreateTime(new Date());
         data.setDataType("int");
         return data;
