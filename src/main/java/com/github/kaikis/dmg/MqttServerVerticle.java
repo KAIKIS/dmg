@@ -23,7 +23,6 @@ public class MqttServerVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> startFuture) throws Exception {
         MqttServerOptions options = new MqttServerOptions();
-//        options.
         mqttServer = MqttServer.create(vertx);
         mqttServer.endpointHandler(this::handler)
                 .listen(ar -> {
